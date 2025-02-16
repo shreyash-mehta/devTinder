@@ -4,17 +4,19 @@ app.listen(3000, () => {
   console.log("Server is listening on port 3000");
 });
 
-app.use("/user/:userId/:name/:city", (req, res) => {
-  console.log(req.params);
-  res.send("Hello 10000 times from the test server!");
+app.use("/test", (req, res, next) => {
+  console.log("Server handler 1");
+  next();
 });
 
-
-
-// app.use("/", (req, res) => {
-//     res.send("Hello from the server!");
-//   });
-
-// app.use("/demo", (req, res) => {
-//   res.send("Hello from the demo server!");
-// });
+app.use(
+  "/test",
+  (req, res, next) => {~
+    console.log("Server handler 2");
+    next();
+  },
+  (req, res) => {
+    console.log("Server handler 3");
+    res.send("Response 3!!");
+  }
+);
