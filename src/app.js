@@ -6,20 +6,22 @@ app.listen(3000, () => {
   console.log("Server is listening on port 3000");
 });
 
-app.use("/admin", adminAuth);
-
-app.get("/user/data", userAuth, (req, res, next) => {
-  res.send("user has sent the data");
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong");
+  }
 });
 
-app.get("/user/login",(req, res, next) => {
-  res.send("User has logged in successfully!");
+app.get("/getData", (req, res, next) => {
+  // try {
+    throw new Error("dgfjfkdkddm");
+  // } catch (err) {
+    res.status(500).send("User Data sent");
+  // }
 });
 
-app.get("/admin/getData", (req, res, next) => {
-  res.send("data is sent by the admin");
-});
-
-app.get("/admin/deleteData", (req, res, next) => {
-  res.send("data is deleted by the admin");
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something last went wrong");
+  }
 });
