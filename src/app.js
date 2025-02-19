@@ -26,24 +26,71 @@ app.get("/user", async (req, res) => {
     } else {
       res.send(user);
     }
-  } 
-  // try {
-  //   const users = await User.find({ emailId: userEmailId });
-  //   if (users.length === 0) {
-  //     res.status(404).send("User not found");
-  //   } else {
-  //     res.send(users);
-  //   }
-  // } 
-  catch (err) {
+  } catch (err) {
+    // try {
+    //   const users = await User.find({ emailId: userEmailId });
+    //   if (users.length === 0) {
+    //     res.status(404).send("User not found");
+    //   } else {
+    //     res.send(users);
+    //   }
+    // }
     res.status(400).send("Something went wrong");
   }
 });
+
+// app.get("/findById", async (req, res) => {
+//   const Id = req.body._id;
+
+//   try {
+//     const idData = await User.findById({ _id: Id });
+//     res.send(idData);
+//   } catch (err) {
+//     res.status(400).send("Id not found");
+//   }
+// });
 
 app.get("/feed", async (req, res) => {
   try {
     const users = await User.find({});
     res.send(users);
+  } catch (err) {
+    res.status(404).send("Something went wrong");
+  }
+});
+
+app.delete("/delete", async (req, res) => {
+  const userId = req.body.userId;
+
+  try {
+    const user = await User.findByIdAndDelete(userId);
+    res.send("User deleted successfully");
+  } catch (err) {
+    res.status(404).send("Something went wrong");
+  }
+});
+
+// app.patch("/patch", async (req, res) => {
+//   const userId = req.body.userId;
+//   const data = req.body;
+//   console.log(data);
+//   try {
+//     const user = await User.findByIdAndUpdate({ _id: userId }, data, {returnDocument: "after"});
+//     console.log(user);
+//     res.send("User updated successfully");
+//   } catch (err) {
+//     res.status(404).send("Something went wrong");
+//   }
+// });
+
+app.patch("/patch2", async (req, res) => {
+  const userEmail = req.body.emailId;
+  const data = req.body;
+  console.log(data);
+  try {
+    const user = await User.findOneAndUpdate({ emailId: userEmail }, data, {returnDocument: "after"});
+    console.log(user);
+    res.send("User updated successfully");
   } catch (err) {
     res.status(404).send("Something went wrong");
   }
