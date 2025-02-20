@@ -12,7 +12,7 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User is added successfully!");
   } catch (err) {
-    res.status(500).send("Error saving the user:", +err.message);
+    res.status(400).send("Error saving the user:" + err.message);
   }
 });
 
@@ -70,31 +70,34 @@ app.delete("/delete", async (req, res) => {
   }
 });
 
-// app.patch("/patch", async (req, res) => {
-//   const userId = req.body.userId;
+app.patch("/patch", async (req, res) => {
+  const userId = req.body.userId;
+  const data = req.body;
+  console.log(data);
+  try {
+    const user = await User.findByIdAndUpdate({ _id: userId }, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
+    console.log(user);
+    res.send("User updated successfully");
+  } catch (err) {
+    res.status(404).send("Something went wrong" + err.message);
+  }
+});
+
+// app.patch("/patch2", async (req, res) => {
+//   const userEmail = req.body.emailId;
 //   const data = req.body;
 //   console.log(data);
 //   try {
-//     const user = await User.findByIdAndUpdate({ _id: userId }, data, {returnDocument: "after"});
+//     const user = await User.findOneAndUpdate({ emailId: userEmail }, data, {returnDocument: "after"});
 //     console.log(user);
 //     res.send("User updated successfully");
 //   } catch (err) {
 //     res.status(404).send("Something went wrong");
 //   }
 // });
-
-app.patch("/patch2", async (req, res) => {
-  const userEmail = req.body.emailId;
-  const data = req.body;
-  console.log(data);
-  try {
-    const user = await User.findOneAndUpdate({ emailId: userEmail }, data, {returnDocument: "after"});
-    console.log(user);
-    res.send("User updated successfully");
-  } catch (err) {
-    res.status(404).send("Something went wrong");
-  }
-});
 
 connectDB()
   .then(() => {
