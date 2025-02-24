@@ -14,6 +14,7 @@
   "author": "Shreyash Mehta",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "expess": "^0.0.1-security",
     "express": "^4.21.2",
     "mongoose": "^8.10.1",
