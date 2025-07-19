@@ -3,6 +3,7 @@ const requestRouter = express.Router();
 const ConnectionRequest = require("../models/connectionRequest");
 const { userAuth } = require("../middlewares/auth");
 const User = require("../models/user");
+const sendEmail = require("../utils/sendEmail");
 
 requestRouter.post(
   "/request/send/:status/:toUserId",
@@ -61,10 +62,8 @@ requestRouter.post(
   userAuth,
   async (req, res) => {
     try {
-
       const loggedInUser = req.user;
       const { status, requestId } = req.params;
-
 
       const allowedStatus = ["accepted", "rejected"];
       if (!allowedStatus.includes(status)) {
@@ -85,6 +84,9 @@ requestRouter.post(
       connectionRequest.status = status;
 
       const data = await connectionRequest.save();
+
+      const emailRes = await sendEmail.run();
+      console.log(emailRes);
 
       res.json({ message: "Connection request " + status, data });
     } catch (err) {
