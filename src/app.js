@@ -2,7 +2,9 @@ const express = require("express");
 const { connectDB } = require("./config/database");
 const User = require("./models/user");
 const cors = require("cors");
-require('dotenv').config()
+
+require("dotenv").config();
+require("./utils/cron");
 
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
@@ -12,8 +14,8 @@ const app = express();
 app.use(
   cors({
     origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], 
-    credentials: true, 
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    credentials: true,
   })
 );
 app.options("*", cors());
@@ -24,7 +26,6 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
-
 
 app.use("/", authRouter);
 app.use("/", profileRouter);
