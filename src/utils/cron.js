@@ -3,7 +3,7 @@ const ConnectionRequestModel = require("../models/connectionRequest");
 const { subDays, startOfDay, endOfDay } = require("date-fns");
 const sendEmail = require("./sendEmail");
 
-// This cron job will run daily at 8:00 am
+// This cron job will run daily at 8:00am
 cron.schedule("0 8 * * *", async () => {
   try {
 
