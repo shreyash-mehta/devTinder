@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema(
       },
     },
     isPremium: {
-      type: String,
+      type: Boolean,
       default: false,
     },
     membershipType: {
